@@ -121,8 +121,8 @@ public class CollectableMain : MonoBehaviour
                 {
                     _collectableLayersInside[currentLayerNumber]._cubesInside[i].transform.DOComplete();
                     _collectableLayersInside[currentLayerNumber]._cubesInside[i].transform.DOKill();
-                    _collectableLayersInside[currentLayerNumber]._cubesInside[i].AddComponent<Rigidbody>().AddExplosionForce(explodeForce, new Vector3(transform.position.x, _collectableLayersInside[currentLayerNumber]._cubesInside[i].transform.position.y, transform.position.z), 100);
-                    _collectableLayersInside[currentLayerNumber]._cubesInside[i].AddComponent<BoxCollider>();
+                    _collectableLayersInside[currentLayerNumber]._cubesInside[i].AddComponent<Rigidbody>().AddExplosionForce(explodeForce, new Vector3(transform.position.x,transform.position.y, transform.position.z), 100);
+                    _collectableLayersInside[currentLayerNumber]._cubesInside[i].AddComponent<BoxCollider>();   
                     _collectableLayersInside[currentLayerNumber]._cubesInside[i].transform.parent = null;
                     _sendPieceLister.Add(_collectableLayersInside[currentLayerNumber]._cubesInside[i]);
                 }
@@ -141,7 +141,7 @@ public class CollectableMain : MonoBehaviour
     {
         for (int i = currentLayerNumber+1; i < _collectableLayersInside.Count; i++)
         {
-            _collectableLayersInside[i]._mainParent.transform.DOLocalRotate(new Vector3(0, 360, 0), .25f, RotateMode.LocalAxisAdd);
+            //_collectableLayersInside[i]._mainParent.transform.DOLocalRotate(new Vector3(0, 360, 0), .25f, RotateMode.LocalAxisAdd);
             foreach (GameObject cube in _collectableLayersInside[i]._cubesInside)
             {
                 Vector3 localPosition = cube.transform.localPosition;
