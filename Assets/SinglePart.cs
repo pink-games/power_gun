@@ -43,7 +43,7 @@ public class SinglePart : MonoBehaviour
                 }
                 if(_barValue._barSkill == Skills.MultiShoot)
                 {
-                    _skillerParenter.GetComponentInChildren<TextMeshPro>().text = "X" + ((_barValue.skillLeveler)+1).ToString();
+                    _skillerParenter.GetComponentInChildren<TextMeshPro>().text = "X" + ((_barValue.skillLeveler)).ToString();
                 }
             }
             else
