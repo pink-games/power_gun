@@ -47,5 +47,5 @@ public class CameraFollow : MonoBehaviour
         // Tween customVector to 3,4,2 in 2 seconds
         DOTween.To(() => offset, x => offset = x, offsetNew, .5f);
     }
-    
+
 }

@@ -3,10 +3,10 @@ namespace ElephantSDK
     public class ElephantThirdPartyIds
     {
         public static string FacebookClientToken = "test_facebook_client_token";
-        public static string FacebookAppId = "705500751548526";
-        public static string GameId = "13487b10a38e27cd5abad4dea3314589d09d7b164d7879a9b12cae78c7567e3c";
-        public static string GameSecret = "d9a2966b1d2825d0e482bc733821dc4c17baa83963f89ce34d4b79efb40ff70a";
-        public static string BundleName = "com.pink.warriorsrush";
-        public static string AdjustAppKey = "5h2qfnfhl2tc";
+        public static string FacebookAppId = "416389390837727";
+        public static string GameId = "7ca82cb61e865d7f29cedb97431e56383c749f39f8dd67d588172ebfc22e39ea";
+        public static string GameSecret = "c9f39d5ecc3425627837e70f6de0784c2d1041d2d089f3231b0eb4471d08a8ed";
+        public static string BundleName = "com.pink.powershoot";
+        public static string AdjustAppKey = "ciyvo7a8r9j4";
     }
 }

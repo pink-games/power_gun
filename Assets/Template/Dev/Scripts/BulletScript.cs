@@ -10,11 +10,11 @@ public enum Skills
     BiggerBullets,
     Bomb,
     Critical,
-    Double,
     FireBullets,
     IceBullet,
+    MultiShoot,
+    Range,
     Richochet,
-    Triple
 }
 public class BulletScript : MonoBehaviour
 {
@@ -47,6 +47,7 @@ public class BulletScript : MonoBehaviour
         for (int i = 0; i < allTrails.Count; i++)
         {
             allTrails[i].SetActive(false);
+            allTrails[i].GetComponent<ParticleSystem>().Stop();
         }
         if (_skills.Contains(Skills.Bomb))
         {
@@ -81,11 +82,16 @@ public class BulletScript : MonoBehaviour
         {
             transform.localScale *= 1.5f;
         }
+        if (_skills.Contains(Skills.Range))
+        {
+            zMax += 10;
+        }
     }
     public void BulletDeActivate(bool showPower, bool particledHit = false, Ricochetable _ricochetObject = null)
     {
         if (particledHit)
         {
+            Taptic.Light();
             GameObject hitParticle = ObjectPooler.instance.SpawnFromPool("BulletHit", transform.position-new Vector3(0,0,.1f), Quaternion.identity);
             foreach (ParticleSystem ps in hitParticle.GetComponentsInChildren<ParticleSystem>())
             {
@@ -103,7 +109,7 @@ public class BulletScript : MonoBehaviour
             }
             if (_skillsGot.Contains(Skills.IceBullet))
             {
-                GameObject iceHitParticle = ObjectPooler.instance.SpawnFromPool("IceExplosion", transform.position, Quaternion.identity);
+                GameObject iceHitParticle = ObjectPooler.instance.SpawnFromPool("IceExplosioner", transform.position, Quaternion.identity);
                 foreach (ParticleSystem ps in iceHitParticle.GetComponentsInChildren<ParticleSystem>())
                 {
                     ps.Play();
@@ -195,6 +201,7 @@ public class BulletScript : MonoBehaviour
     }
     public void ActivateBullet(float _power, List<Skills> skill)
     {
+        GetComponentInChildren<TextMeshPro>().text = _power.ToString();
         bulletPower = _power;
         transform.DOComplete();
         transform.DOKill();

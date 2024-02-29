@@ -1,4 +1,4 @@
-Shader "Custom/CellShader"
+Shader "Custom/CelShader"
 {
 	Properties
 	{
@@ -16,12 +16,6 @@ Shader "Custom/CellShader"
 		_OutlineAmount("Outline Amount", Float) = 0.01
 		_Transparency("Transparency", Range(0,1)) = 1
 		_OutlineByNormal("Outline By Normal", Range(0,1)) = 1
-
-
-		
-		_Health("Health",Range(0,1))=0
-        _LowColor("LowHealth",Color) = (1,0,0,1) 
-        _HighColor("HighHealth",Color) = (1,0,0,1)
 	}
 	SubShader
 	{
@@ -120,7 +114,6 @@ Shader "Custom/CellShader"
 			float _RimThreshold;
 			float _OutlineAmount;
 			float _Transparency;
-			fixed4 _HighColor;
 
 			v2f vert (appdata v)
 			{
@@ -160,8 +153,8 @@ Shader "Custom/CellShader"
 
 				float4 outlineDot = 1 - dot(viewDir, normal);
 				float outline = outlineDot > _OutlineAmount ? 1 : 0;
-				fixed4 colorSeperated = _HighColor;
-				fixed4 finalCol = colorSeperated * (_AmbientColor + light + specular + rim);
+
+				fixed4 finalCol = _Color * col * (_AmbientColor + light + specular + rim);
 				finalCol.a = _Transparency;
 				// apply fog
 				UNITY_APPLY_FOG(i.fogCoord, finalCol);

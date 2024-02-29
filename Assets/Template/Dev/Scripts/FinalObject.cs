@@ -14,6 +14,10 @@ public class FinalObject : MonoBehaviour
     private Vector3 moneyStartPos;
     public int zNum;
     public bool inGameVaril;
+    [SerializeField] Renderer _varilRenderer;
+    public Material icedMaterial;
+    bool gotIced;
+    public GameObject _fireParticleInsider;
     private void Awake()
     {
         moneyObject.GetComponent<Collider>().enabled = false;
@@ -41,6 +45,18 @@ public class FinalObject : MonoBehaviour
     {
         if (other.CompareTag("Bullet"))
         {
+            if (other.GetComponent<BulletScript>()._skillsGot.Contains(Skills.IceBullet))
+            {
+                _varilRenderer.material = icedMaterial;
+                gotIced = true;
+            }
+            if (other.GetComponent<BulletScript>()._skillsGot.Contains(Skills.FireBullets))
+            {
+                _fireParticleInsider.gameObject.SetActive(true);
+                Vector3 scaler = _fireParticleInsider.transform.localScale;
+                _fireParticleInsider.transform.localScale = Vector3.zero;
+                _fireParticleInsider.transform.DOScale(scaler, .2f);
+            }
             Taptic.Light();
             other.GetComponent<BulletScript>().BulletDeActivate(true,true,GetComponent<Ricochetable>());
             power -= other.GetComponent<BulletScript>().bulletPower;
@@ -71,11 +87,24 @@ public class FinalObject : MonoBehaviour
                 moneyObject.transform.DOScale(moneyObject.transform.localScale * 1.1f, .2f).OnComplete(delegate {
                     moneyObject.transform.DOScale(moneyObject.transform.localScale / 1.1f, .2f);
                 });
-                GameObject varilBreakParticle = ObjectPooler.instance.SpawnFromPool("VarilBreakParticler", transform.position+new Vector3(0,3,0), Quaternion.identity);
-                
-                foreach(ParticleSystem ps in varilBreakParticle.GetComponentsInChildren<ParticleSystem>())
+              
+                if (gotIced)
                 {
-                    ps.Play();
+                    GameObject varilBreakParticle = ObjectPooler.instance.SpawnFromPool("IcedVarilBreakParticler", transform.position + new Vector3(0, 3, 0), Quaternion.identity);
+
+                    foreach (ParticleSystem ps in varilBreakParticle.GetComponentsInChildren<ParticleSystem>())
+                    {
+                        ps.Play();
+                    }
+                }
+                else
+                {
+                    GameObject varilBreakParticle = ObjectPooler.instance.SpawnFromPool("VarilBreakParticler", transform.position + new Vector3(0, 3, 0), Quaternion.identity);
+
+                    foreach (ParticleSystem ps in varilBreakParticle.GetComponentsInChildren<ParticleSystem>())
+                    {
+                        ps.Play();
+                    }
                 }
             }
             else

@@ -155,8 +155,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.pink.warriorsrush
-    iPhone: com.pink.warriorsrush
+    Android: com.pink.powershoot
+    iPhone: com.pink.powershoot
   buildNumber:
     Standalone: 0
     iPhone: 0

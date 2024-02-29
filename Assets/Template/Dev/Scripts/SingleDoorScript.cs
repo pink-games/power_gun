@@ -9,7 +9,8 @@ public enum DoorType
     FireRate,
     FireRange,
     FirePower,
-    SkillDoor
+    SkillDoor,
+    BulletDoor
 }
 public class SingleDoorScript : MonoBehaviour
 {
@@ -30,7 +31,8 @@ public class SingleDoorScript : MonoBehaviour
     [SerializeField] private Vector2 trianglePositions;
     private float triangleXMoveAmount;
     private float currentTrianglePosition;
-
+    public GameObject iceDoor;
+    bool iced;
 
     [SerializeField] private TextMeshPro amountText;
     [SerializeField] private TextMeshPro typeText;
@@ -43,7 +45,7 @@ public class SingleDoorScript : MonoBehaviour
     float currentObjectNumber;
     [Header("Skill Doors")]
     [SerializeField] List<TextMeshPro> _levelTexts = new List<TextMeshPro>();
-    [SerializeField] GameManager _barRenderer;
+    [SerializeField] GameObject _barRenderer;
     [SerializeField] List<int> powerNeededForNewLevelSkill = new List<int>();
     public SingleDoorScript otherDoor;
     [SerializeField] int startLevel;
@@ -51,13 +53,25 @@ public class SingleDoorScript : MonoBehaviour
     bool canStamina;
     [SerializeField] float staminaSpeed;
     int currentLevel;
+    public GameObject _bulletInside;
+    public TextMeshPro _bulletPowerTexter;
+
+
+    public TextMeshPro _multiTexter;
+
+    public Vector3 barStartScale;
+    public Vector3 barFinalScale;
+    public Vector3 barStartPosition;
+    public Vector3 barFinalPosition;
+
+
     private void Awake()
     {
         for (int i = 0; i < skillBalls.Count; i++)
         {
             skillBallsStartScales.Add(skillBalls[i].transform.localScale);
         }
-        if (_doorType == DoorType.SkillDoor)
+        if (_doorType == DoorType.SkillDoor || _doorType == DoorType.BulletDoor)
         {
             currentPower = powerNeededForNewLevelSkill[startLevel];
             GetHit(0);
@@ -123,7 +137,34 @@ public class SingleDoorScript : MonoBehaviour
                 typeText.text = "POWER";
                 break;
             case DoorType.SkillDoor:
-                typeText.text = _doorSkill.ToString();
+                
+                switch (_doorSkill)
+                {
+                    case Skills.BiggerBullets:
+                        typeText.text = "SIZE";
+                        break;
+                    case Skills.Bomb:
+                        typeText.text = "BOMB";
+                        break;
+                    case Skills.Critical:
+                        typeText.text = "CRITICAL";
+                        break;
+                    case Skills.FireBullets:
+                        typeText.text = "FIRE";
+                        break;
+                    case Skills.IceBullet:
+                        typeText.text = "ICE";
+                        break;
+                    case Skills.Range:
+                        typeText.text = "RANGE";
+                        break;
+                    case Skills.Richochet:
+                        typeText.text = "RICOCHET";
+                        break;
+                    case Skills.MultiShoot:
+                        typeText.text = "MULTI";
+                        break;
+                }
                 break;
         }
         if (amount < 0)
@@ -150,7 +191,11 @@ public class SingleDoorScript : MonoBehaviour
             {
                 doorNumber = 1;
             }
-            if (_doorType == DoorType.SkillDoor)
+            if (_doorType == DoorType.SkillDoor )
+            {
+                doorNumber = 3;
+            }
+            if(_doorType == DoorType.BulletDoor)
             {
                 doorNumber = 3;
             }
@@ -179,6 +224,25 @@ public class SingleDoorScript : MonoBehaviour
                 {
                     skillSprites[i].SetActive(false);
                 }
+            }
+        }
+        if(_doorType ==DoorType.SkillDoor||_doorType == DoorType.BulletDoor)
+        {
+
+        }
+        else
+        {
+            if (iced)
+            {
+                for(int i = 0; i < doors.Count; i++)
+                {
+                    doors[i].gameObject.SetActive(false);
+                }
+                iceDoor.SetActive(true);
+            }
+            else
+            {
+                iceDoor.SetActive(false);
             }
         }
     }
@@ -231,6 +295,7 @@ public class SingleDoorScript : MonoBehaviour
     }
     public void GetHit(float hitPower)
     {
+        canStamina = false; 
         currentPower += hitPower;
         int smallestLevel = 0;
         for (int i = 0; i < powerNeededForNewLevelSkill.Count; i++)
@@ -242,10 +307,33 @@ public class SingleDoorScript : MonoBehaviour
         }
         _levelTexts[0].text = (smallestLevel + 1).ToString();
         _levelTexts[1].text = (smallestLevel + 2).ToString();
-        _levelTexts[2].text = "lvl" + (smallestLevel + 1).ToString();
+        if(_doorType == DoorType.SkillDoor)
+        {
+            _levelTexts[2].text = "lvl" + (smallestLevel + 1).ToString();
+        }
+        else
+        {
+            _levelTexts[2].text = (smallestLevel + 1).ToString();
+        }
+        if(smallestLevel >= powerNeededForNewLevelSkill.Count-1)
+        {
+            int lastPower = powerNeededForNewLevelSkill[^1];
+            for (int i = 0; i < 10; i++)
+            {
+                powerNeededForNewLevelSkill.Add(lastPower+(i+1)*10);
+            }
+        }
         float fillAmount = currentPower - (float)powerNeededForNewLevelSkill[smallestLevel];
         fillAmount /= (float)powerNeededForNewLevelSkill[smallestLevel + 1] - (float)powerNeededForNewLevelSkill[smallestLevel];
-        fillAmount *= 100;
+
+        Vector3 barCurrentScale = barStartScale + ((barFinalScale - barStartScale) * fillAmount);
+        Vector3 barCurrentPosition = barStartPosition + ((barFinalPosition - barStartPosition) * fillAmount);
+        _barRenderer.transform.DOScale(barCurrentScale, .2f).OnComplete(delegate {
+            canStamina = true;
+        });
+        _barRenderer.transform.DOLocalMove(barCurrentPosition, .2f).OnComplete(delegate {
+            canStamina = true;
+        });
         /*
         DOTween.To(() => currentFillAmount, x => currentFillAmount = x, fillAmount, .2f).OnUpdate(delegate {
             
@@ -253,14 +341,26 @@ public class SingleDoorScript : MonoBehaviour
             canStamina = true;
         });*/
         currentLevel = smallestLevel;
-        int skillNumber = ((int)_doorSkill);
-        for (int i = 0; i < skillBalls.Count; i++)
+        if(_doorType == DoorType.SkillDoor)
         {
-            if (i == skillNumber)
+            int skillNumber = ((int)_doorSkill);
+            for (int i = 0; i < skillBalls.Count; i++)
             {
-                skillBalls[i].transform.DOScale(skillBallsStartScales[i] * 1.2f, .1f);
-                skillBalls[i].transform.DOScale(skillBallsStartScales[i], .1f).SetDelay(.1f + Time.deltaTime);
+                if (i == skillNumber)
+                {
+                    skillBalls[i].transform.DOScale(skillBallsStartScales[i] * 1.2f, .1f);
+                    skillBalls[i].transform.DOScale(skillBallsStartScales[i], .1f).SetDelay(.1f + Time.deltaTime);
+                }
             }
+            if(_doorSkill == Skills.MultiShoot)
+            {
+                _multiTexter.text ="X"+ (currentLevel + 2).ToString();
+            }
+        }
+        else if(_doorType ==DoorType.BulletDoor)
+        {
+            _bulletInside.transform.DOScale(new Vector3(361.7169f, 361.7169f, 361.7169f) * 1.2f, .1f);
+            _bulletInside.transform.DOScale(new Vector3(361.7169f, 361.7169f, 361.7169f), .1f).SetDelay(.1f + Time.deltaTime);
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -283,8 +383,17 @@ public class SingleDoorScript : MonoBehaviour
             }
             */
             other.GetComponent<BulletScript>().BulletDeActivate(true, true, GetComponent<Ricochetable>());
-            if (_doorType != DoorType.SkillDoor)
+            if(_doorType == DoorType.SkillDoor || _doorType == DoorType.BulletDoor)
             {
+                GetHit(other.GetComponent<BulletScript>().bulletPower);
+
+            }
+            else 
+            {
+                if (other.GetComponent<BulletScript>()._skillsGot.Contains(Skills.IceBullet))
+                {
+                    iced = true;
+                }
                 if (!locked)
                 {
                     IncreaseAmount(other.GetComponent<BulletScript>().bulletPower);
@@ -295,10 +404,6 @@ public class SingleDoorScript : MonoBehaviour
                     LockHit();
                     Taptic.Medium();
                 }
-            }
-            else
-            {
-                GetHit(other.GetComponent<BulletScript>().bulletPower);
             }
         }
         else if (other.CompareTag("Player"))
@@ -319,8 +424,12 @@ public class SingleDoorScript : MonoBehaviour
                         ShootingScript.instance.FirePowerUpgrade(amount);
                         break;
                     case DoorType.SkillDoor:
+                        BarMain.instance.GetSkillPart(_doorSkill,currentLevel+1);
                         //StartCoroutine(ShootingScript.instance.GetSkillBullet(_bulletPosition, _doorSkill));
                         //ShootingScript.instance.GetSkillBullet(_doorSkill);
+                        break;
+                    case DoorType.BulletDoor:
+                        BarMain.instance.GetPowerBullet(currentLevel+1);
                         break;
                 }
             }
@@ -339,7 +448,10 @@ public class SingleDoorScript : MonoBehaviour
                 currentPower -= Time.deltaTime * staminaSpeed;
                 float fillAmount = currentPower - (float)powerNeededForNewLevelSkill[currentLevel];
                 fillAmount /= (float)powerNeededForNewLevelSkill[currentLevel + 1] - (float)powerNeededForNewLevelSkill[currentLevel];
-                fillAmount *= 100;
+                Vector3 barCurrentScale = barStartScale + ((barFinalScale - barStartScale) * fillAmount);
+                Vector3 barCurrentPosition = barStartPosition + ((barFinalPosition - barStartPosition) * fillAmount);
+                _barRenderer.transform.localScale = barCurrentScale;
+                _barRenderer.transform.localPosition= barCurrentPosition;
             }
         }
     }
