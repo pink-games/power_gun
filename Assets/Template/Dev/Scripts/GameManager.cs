@@ -6,6 +6,16 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using TMPro;
 using ElephantSDK;
+
+
+
+[System.Serializable]
+public class GameSpecs
+{
+    public List<int> powerNeededForCapacity = new List<int>();
+    public List<int> powerNeededForBulletDoor = new List<int>();
+    public List<int> powerNeededForSkillDoor = new List<int>();
+}
 public class GameManager : MonoBehaviour
 {
     [Header("Canvas's")]
@@ -22,10 +32,15 @@ public class GameManager : MonoBehaviour
 
     public Transform _collectablePosition;
     public float collectableSpeed;
+
+
+    public GameSpecs _gameSpecs;
+    public TextAsset _defaultGameSpecs;
     public static GameManager instance;
     private void Awake()
     {
         instance = this;
+        _gameSpecs = JsonUtility.FromJson<GameSpecs>(RemoteConfig.GetInstance().Get("GameSpecs", _defaultGameSpecs.text));
         Application.targetFrameRate = 60;
         Input.multiTouchEnabled = false;
         RefreshCoinText();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using DG.Tweening;
-
+using ElephantSDK;
 
 
 public class ShootingScript : MonoBehaviour
@@ -26,17 +26,35 @@ public class ShootingScript : MonoBehaviour
     [SerializeField] List<ParticleSystem> muzzleParticles = new List<ParticleSystem>();
     float counter;
     float rateIncreaseAmount = .1f;
+    float rangeIncreaseAmounter= .1f;
     float shootInterval;
     public int shootCounter;
+    public string rateUpgradeCountRemoteName;
+    public string rangeUpgradeCountRemoteName;
+    public string incomeUpgradeCountRemoteName;
     public static ShootingScript instance;
     private void Awake()
     {
         instance = this;
         canShoot = true;
+        rateIncreaseAmount = RemoteConfig.GetInstance().GetFloat("RateIncAmountDoor", .03f);
+        rangeIncreaseAmounter= RemoteConfig.GetInstance().GetFloat("RangeIncAmountDoor", .03f);
+        fireRate = RemoteConfig.GetInstance().GetFloat("StartRate", 1) + PlayerPrefs.GetInt(rateUpgradeCountRemoteName) * RemoteConfig.GetInstance().GetFloat("RateIncAmountUpgrade", .05f);
+        currentRange= RemoteConfig.GetInstance().GetFloat("StartRange", 10) + PlayerPrefs.GetInt(rangeUpgradeCountRemoteName) * RemoteConfig.GetInstance().GetFloat("RangeIncAmountUpgrade", .05f);
         shootInterval = 1 / fireRate;
         counter = shootInterval;
     }
-
+    public void FireRateUpgradeFromUI()
+    {
+        PlayerPrefs.SetInt(rateUpgradeCountRemoteName, PlayerPrefs.GetInt(rateUpgradeCountRemoteName) + 1);
+        fireRate = RemoteConfig.GetInstance().GetFloat("StartRate", 1) + PlayerPrefs.GetInt(rateUpgradeCountRemoteName) * RemoteConfig.GetInstance().GetFloat("RateIncAmountUpgrade", .05f);
+        FireRateChanged();
+    }
+    public void FireRangeUpgradeFromUI()
+    {
+        PlayerPrefs.SetInt(rangeUpgradeCountRemoteName, PlayerPrefs.GetInt(rangeUpgradeCountRemoteName) + 1);
+        currentRange= RemoteConfig.GetInstance().GetFloat("StartRange", 10) + PlayerPrefs.GetInt(rangeUpgradeCountRemoteName) * RemoteConfig.GetInstance().GetFloat("RangeIncAmountUpgrade", .05f);
+    }
     public List<Skills> GetActiveSkills()
     {
         List<Skills> skillsToGive = new List<Skills>();
@@ -81,7 +99,8 @@ public class ShootingScript : MonoBehaviour
     }
     public void FireRangeUpgrade(float _amount)
     {
-
+        currentRange+= _amount * rangeIncreaseAmounter;
+        FireRateChanged();
     }
     public void FirePowerUpgrade(float _amount)
     {
