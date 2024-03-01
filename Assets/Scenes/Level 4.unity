@@ -771,7 +771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3257152068075561530, guid: abf107be232d74b2eb460ddda8b18e32, type: 3}
       propertyPath: _doorType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3257152068075561530, guid: abf107be232d74b2eb460ddda8b18e32, type: 3}
       propertyPath: lockPower
@@ -3527,6 +3527,10 @@ PrefabInstance:
       propertyPath: _doorType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3257152068075561530, guid: abf107be232d74b2eb460ddda8b18e32, type: 3}
+      propertyPath: lockPower
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abf107be232d74b2eb460ddda8b18e32, type: 3}
 --- !u!1 &1898500014
@@ -3673,7 +3677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6581999874512375344, guid: cf83c44e1673043c08a978c7294fc568, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.9
+      value: -2.09
       objectReference: {fileID: 0}
     - target: {fileID: 6581999874512375344, guid: cf83c44e1673043c08a978c7294fc568, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4106,6 +4110,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4115916083471181717, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4115916083471181717, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.9
+      objectReference: {fileID: 0}
     - target: {fileID: 8834520503093487762, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0.0000000084996445
@@ -4201,7 +4213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3257152068075561530, guid: abf107be232d74b2eb460ddda8b18e32, type: 3}
       propertyPath: lockPower
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abf107be232d74b2eb460ddda8b18e32, type: 3}
@@ -12475,96 +12487,112 @@ MonoBehaviour:
   cubesInside: []
   _collectableLayersInside:
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 10
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 20
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 30
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 40
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 50
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 60
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 70
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 80
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 90
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 100
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 110
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 120
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 130
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 140
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 150
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0

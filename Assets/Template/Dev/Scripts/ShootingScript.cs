@@ -40,7 +40,7 @@ public class ShootingScript : MonoBehaviour
         rateIncreaseAmount = RemoteConfig.GetInstance().GetFloat("RateIncAmountDoor", .03f);
         rangeIncreaseAmounter= RemoteConfig.GetInstance().GetFloat("RangeIncAmountDoor", .03f);
         fireRate = RemoteConfig.GetInstance().GetFloat("StartRate", 1) + PlayerPrefs.GetInt(rateUpgradeCountRemoteName) * RemoteConfig.GetInstance().GetFloat("RateIncAmountUpgrade", .05f);
-        currentRange= RemoteConfig.GetInstance().GetFloat("StartRange", 10) + PlayerPrefs.GetInt(rangeUpgradeCountRemoteName) * RemoteConfig.GetInstance().GetFloat("RangeIncAmountUpgrade", .05f);
+        currentRange= RemoteConfig.GetInstance().GetFloat("StartRange", 16) + PlayerPrefs.GetInt(rangeUpgradeCountRemoteName) * RemoteConfig.GetInstance().GetFloat("RangeIncAmountUpgrade", .05f);
         shootInterval = 1 / fireRate;
         counter = shootInterval;
     }
