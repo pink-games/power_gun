@@ -982,6 +982,7 @@ MonoBehaviour:
   barFinalScale: {x: 0.15208, y: -2.929713, z: 0.502347}
   barStartPosition: {x: 0, y: -1.3466, z: -1.5641}
   barFinalPosition: {x: 0, y: 0.0832, z: -1.5641}
+  _lockTexter: {fileID: 0}
 --- !u!65 &67728126
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3276,7 +3277,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 269041754}
-  m_LocalRotation: {x: 0.22729419, y: -0.06241698, z: 0.014599988, w: 0.97171414}
+  m_LocalRotation: {x: 0.22729419, y: -0.062416922, z: 0.014599975, w: 0.97171414}
   m_LocalPosition: {x: 1.29, y: 8.45, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -24730,7 +24731,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.22729419, y: -0.06241698, z: 0.014599988, w: 0.97171414}
+  m_LocalRotation: {x: 0.22729419, y: -0.062416922, z: 0.014599975, w: 0.97171414}
   m_LocalPosition: {x: 1.29, y: 8.45, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -36829,7 +36830,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c1ca4f565067d4a25871dfdbca1bc783, type: 2}
+  - {fileID: 2100000, guid: 7377ebef0a5aa470dad75c16fc6e5533, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -45949,6 +45950,7 @@ MonoBehaviour:
   barFinalScale: {x: 0.15208, y: -2.929713, z: 0.502347}
   barStartPosition: {x: 0, y: -1.3466, z: -1.5641}
   barFinalPosition: {x: 0, y: 0.0832, z: -1.5641}
+  _lockTexter: {fileID: 0}
 --- !u!65 &1681186336
 BoxCollider:
   m_ObjectHideFlags: 0

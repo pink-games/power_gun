@@ -36,7 +36,7 @@ public class ShootingScript : MonoBehaviour
         shootInterval = 1 / fireRate;
         counter = shootInterval;
     }
-    
+
     public List<Skills> GetActiveSkills()
     {
         List<Skills> skillsToGive = new List<Skills>();
@@ -54,20 +54,21 @@ public class ShootingScript : MonoBehaviour
     {
         List<BarValues> _values = BarMain.instance.GiveCurrentValues();
         List<int> skillLevels = new List<int>();
-        for(int i = 0;i< _values.Count; i++)
+        for (int i = 0; i < _values.Count; i++)
         {
             if (_values[i].skillBar)
             {
                 skillLevels.Add(_values[i].skillLeveler);
             }
         }
+        Debug.Log(skillLevels.Count);
         return skillLevels;
     }
     public float GetActivePower()
     {
         List<BarValues> _values = BarMain.instance.GiveCurrentValues();
         float totalPower = 0;
-        for(int i = 0; i < _values.Count; i++)
+        for (int i = 0; i < _values.Count; i++)
         {
             totalPower += _values[i].barPower;
         }
@@ -119,7 +120,7 @@ public class ShootingScript : MonoBehaviour
                         shootAmount = GetSkillLevelser()[iNumber];
                     }
                     Shoot(GetActivePower(), GetActiveSkills(), GetSkillLevelser());
-                    
+
                     counter = shootInterval;
                 }
             }
@@ -129,10 +130,10 @@ public class ShootingScript : MonoBehaviour
     {
 
     }
-    private IEnumerator ShootEnum(float shootPower, List<Skills> _skillsInside, List<int> skillLevels,int shootAmount)
+    private IEnumerator ShootEnum(float shootPower, List<Skills> _skillsInside, List<int> skillLevels, int shootAmount)
     {
-       
-        for(int i = 0; i < shootAmount; i++)
+
+        for (int i = 0; i < shootAmount; i++)
         {
             Shoot(shootPower, _skillsInside, skillLevels);
             yield return new WaitForSeconds(.08f);
@@ -152,7 +153,7 @@ public class ShootingScript : MonoBehaviour
                     iNumber = i;
                 }
             }
-            shootAmounter= GetSkillLevelser()[iNumber];
+            shootAmounter = GetSkillLevelser()[iNumber];
         }
         if (shootAmounter == 0)
         {
@@ -161,7 +162,7 @@ public class ShootingScript : MonoBehaviour
         if (canShoot && GameManager.instance.started)
         {
             GetComponent<Animator>().Play("ShootAnimation");
-            if (shootAmounter==1)
+            if (shootAmounter == 1)
             {
                 GameObject bullet = ObjectPooler.instance.SpawnFromPool("Bullet", shootPosition.position, Quaternion.identity);
                 bullet.transform.eulerAngles = new Vector3(0, 0, 0);
@@ -169,13 +170,13 @@ public class ShootingScript : MonoBehaviour
                 {
                     muzzleParticles[i].Play();
                 }
-                bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside);
+                bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside, skillLevels);
                 bullet.GetComponent<BulletScript>().zMax = currentRange + transform.position.z;
                 bullet.transform.position = shootPosition.position;
                 Vector3 shootVector = Vector3.forward * shootForce;
                 bullet.GetComponent<Rigidbody>().AddForce(shootVector);
             }
-            else if(shootAmounter ==2)
+            else if (shootAmounter == 2)
             {
                 for (int i = 0; i < 2; i++)
                 {
@@ -184,7 +185,7 @@ public class ShootingScript : MonoBehaviour
                     {
                         muzzleParticles[m].Play();
                     }
-                    bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside);
+                    bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside, skillLevels);
 
                     bullet.GetComponent<BulletScript>().zMax = currentRange + transform.position.z;
                     bullet.transform.position = shootPosition.position;
@@ -212,7 +213,7 @@ public class ShootingScript : MonoBehaviour
                     {
                         muzzleParticles[m].Play();
                     }
-                    bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside);
+                    bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside, skillLevels);
 
                     bullet.GetComponent<BulletScript>().zMax = currentRange + transform.position.z;
                     bullet.transform.position = shootPosition.position;
@@ -245,7 +246,7 @@ public class ShootingScript : MonoBehaviour
                     {
                         muzzleParticles[m].Play();
                     }
-                    bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside);
+                    bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside, skillLevels);
 
                     bullet.GetComponent<BulletScript>().zMax = currentRange + transform.position.z;
                     bullet.transform.position = shootPosition.position;
@@ -274,7 +275,7 @@ public class ShootingScript : MonoBehaviour
                     bullet.GetComponent<Rigidbody>().AddForce(shootVector);
                 }
             }
-            else 
+            else
             {
                 for (int i = 0; i < 5; i++)
                 {
@@ -283,7 +284,7 @@ public class ShootingScript : MonoBehaviour
                     {
                         muzzleParticles[m].Play();
                     }
-                    bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside);
+                    bullet.GetComponent<BulletScript>().ActivateBullet(shootPower, _skillsInside, skillLevels);
 
                     bullet.GetComponent<BulletScript>().zMax = currentRange + transform.position.z;
                     bullet.transform.position = shootPosition.position;

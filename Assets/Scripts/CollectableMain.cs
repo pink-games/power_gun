@@ -8,6 +8,7 @@ using TMPro;
 public class CollectableLayers
 {
     public List<GameObject> _cubesInside = new List<GameObject>();
+    public List<Vector3> cubePositions = new List<Vector3>();
     public Transform _mainParent;
     public float _throwAmountPerPower;
     public float _currentThrowAmount;
@@ -38,6 +39,7 @@ public class CollectableMain : MonoBehaviour
             for(int c = 0; c < mainParents[i].transform.childCount; c++)
             {
                 _collectableLayersInside[i]._cubesInside.Add(mainParents[i].transform.GetChild(c).gameObject);
+                _collectableLayersInside[i].cubePositions.Add(mainParents[i].transform.GetChild(c).localPosition);
                 cubesInside.Add(mainParents[i].transform.GetChild(c).gameObject);
             }
             float dropAmountPerPower = (float)_collectableLayersInside[i]._cubesInside.Count / (float)_collectableLayersInside[i]._layerPower;
@@ -107,10 +109,17 @@ public class CollectableMain : MonoBehaviour
                     _sendPieceLister.Add(_collectableLayersInside[currentLayerNumber]._cubesInside[i]);
                 }
             }
-            currentLayerNumber++;
-            if (currentLayerNumber >= _collectableLayersInside.Count)
+            _collectableLayersInside[currentLayerNumber]._layerPower = 0;
+            if (currentLayerNumber > _collectableLayersInside.Count-2)
             {
+                GetComponent<Collider>().enabled = false;
                 transform.DOScale(Vector3.zero, .2f);
+                
+            }
+            else
+            {
+                
+                currentLayerNumber++;
             }
         }
         else
@@ -131,6 +140,8 @@ public class CollectableMain : MonoBehaviour
             {
                 StartCoroutine(Noink());
                 _powerText.transform.DOPunchScale(Vector3.one * rotShakeAmount, .25f, 10, 10);
+                _powerText.transform.DOScale(Vector3.one * 1.666667f * 1.3f, .15f);
+                _powerText.transform.DOScale(Vector3.one * 1.666667f , .1f).SetDelay(.15f);
                 nonking = true;
             }
         }
@@ -142,12 +153,22 @@ public class CollectableMain : MonoBehaviour
         for (int i = currentLayerNumber+1; i < _collectableLayersInside.Count; i++)
         {
             //_collectableLayersInside[i]._mainParent.transform.DOLocalRotate(new Vector3(0, 360, 0), .25f, RotateMode.LocalAxisAdd);
+            Debug.Log(i + "INumber" + _collectableLayersInside.Count + "CountNumber");
+            for(int c = 0;c< _collectableLayersInside[i]._cubesInside.Count; c++)
+            {
+                GameObject cube = _collectableLayersInside[i]._cubesInside[c];
+                Vector3 localPosition = _collectableLayersInside[i].cubePositions[c];
+                cube.transform.DOLocalMove(new Vector3(localPosition.x * 1.3f, localPosition.y, localPosition.z * 1.3f), .15f);
+                cube.transform.DOLocalMove(localPosition, .1f).SetDelay(.15f);
+            }
+            /*
             foreach (GameObject cube in _collectableLayersInside[i]._cubesInside)
             {
                 Vector3 localPosition = cube.transform.localPosition;
                 cube.transform.DOLocalMove(new Vector3(localPosition.x * 1.3f, localPosition.y, localPosition.z * 1.3f), .15f);
                 cube.transform.DOLocalMove(localPosition, .1f).SetDelay(.15f);
             }
+            */
             yield return new WaitForSeconds(.03f);
         }
         nonking = false;
@@ -176,7 +197,7 @@ public class CollectableMain : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             GetHit(other.GetComponent<BulletScript>().bulletPower);
-            other.GetComponent<BulletScript>().BulletDeActivate(true,true);
+            other.GetComponent<BulletScript>().BulletDeActivate(true,true,GetComponent<Ricochetable>());
         }
     }
 }

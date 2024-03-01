@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-
+using ElephantSDK;
 [System.Serializable]
 public class BarValues
 {
@@ -19,6 +19,7 @@ public class BarMain : MonoBehaviour
     [SerializeField] float maxValue;
     [SerializeField] List<Renderer> singleBarRenderers = new List<Renderer>();
     [SerializeField] GameObject secondBar;
+    [SerializeField] GameObject thirdBar;
     int currentCapacity;
     [SerializeField] AnimationCurve _growCurver;
     public List<BarValues> _barValues;
@@ -26,10 +27,12 @@ public class BarMain : MonoBehaviour
     [SerializeField] List<int> fullData = new List<int>();
     public Material activeMaterial;
     public Material inActiveMaterial;
+    public List<Vector3> scales;
     public static BarMain instance;
     private void Awake()
     {
         instance = this;
+        fillTime = RemoteConfig.GetInstance().GetFloat("BarFillTime", 3);
         currentCapacity = 5;
         fillAmount = minValue;
         StartCoroutine(WorkTheBar());
@@ -132,11 +135,18 @@ public class BarMain : MonoBehaviour
             //singleBarRenderers[barNumber].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(Vector3.one * 1.3f, .1f);
             //singleBarRenderers[barNumber].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(Vector3.one, .1f).SetDelay(.1f);
         }
-        if (fullData[barNumber + 5] ==1)
+        if (fullData[barNumber + 5] == 1)
         {
-            if(fullData[barNumber + 5] == 1)
+            if (fullData[barNumber + 5] == 1)
             {
                 barsToUser.Add(barNumber + 5);
+            }
+        }
+        if (fullData[barNumber + 10] == 1)
+        {
+            if (fullData[barNumber + 10] == 1)
+            {
+                barsToUser.Add(barNumber + 10);
             }
         }
         return barsToUser;
@@ -172,6 +182,7 @@ public class BarMain : MonoBehaviour
     }
     public void GetPowerBullet(float bulletPowerer)
     {
+        Debug.Log(SmallestBarObjectInteger()+"SmallestINumber");
         if (!GotEmptySlot())
         {
             if (_barValues[SmallestBarObjectInteger()].barPower < bulletPowerer)
@@ -232,8 +243,9 @@ public class BarMain : MonoBehaviour
         {
             if (!_barValues[i].skillBar)
             {
-                if(currentSmallestNumber< _barValues[i].barPower)
+                if(_barValues[i].barPower < currentSmallestNumber)
                 {
+                    Debug.Log(currentSmallestNumber + "_CurrentSmallestNumberer_" + i + "_INumber_");
                     currentSmallestNumber = _barValues[i].barPower;
                     iNumber =i;
                 }
@@ -263,21 +275,51 @@ public class BarMain : MonoBehaviour
     public void AddCapacity(int addAmount)
     {
         currentCapacity += addAmount;
+        if (currentCapacity > 15)
+        {
+            currentCapacity = 15;
+        }
         if (currentCapacity > 5)
         {
             if (!secondBar.gameObject.activeInHierarchy)
             {
                 secondBar.gameObject.SetActive(true);
-                
+
                 Vector3 localscale = secondBar.gameObject.transform.localScale;
                 secondBar.transform.localScale = Vector3.zero;
                 secondBar.transform.DOScale(localscale, .2f).SetEase(_growCurver);
             }
         }
-        else
+        else 
         {
             secondBar.gameObject.SetActive(false);
         }
+
+        if (currentCapacity > 10)
+        {
+            if (!thirdBar.gameObject.activeInHierarchy)
+            {
+                thirdBar.gameObject.SetActive(true);
+
+                Vector3 localscale = thirdBar.gameObject.transform.localScale;
+                thirdBar.transform.localScale = Vector3.zero;
+                thirdBar.transform.DOScale(localscale, .2f).SetEase(_growCurver);
+            }
+            if (transform.localScale != scales[1])
+            {
+                transform.DOScale(scales[1], .2f).SetEase(_growCurver);
+            }
+        }
+        else 
+        {
+            if (transform.localScale != scales[0])
+            {
+                transform.DOScale(scales[0], .2f).SetEase(_growCurver);
+            }
+            thirdBar.gameObject.SetActive(false);
+        }
+
+
         for (int i = 0; i < singleBarRenderers.Count; i++)
         {
             if (i < currentCapacity)

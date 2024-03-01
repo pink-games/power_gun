@@ -63,8 +63,8 @@ public class SingleDoorScript : MonoBehaviour
     public Vector3 barFinalScale;
     public Vector3 barStartPosition;
     public Vector3 barFinalPosition;
-
-
+    [SerializeField] TextMeshPro _lockTexter;
+    public int skillerNumberer;
     private void Awake()
     {
         for (int i = 0; i < skillBalls.Count; i++)
@@ -91,10 +91,24 @@ public class SingleDoorScript : MonoBehaviour
             triangleXMoveAmount = (trianglePositions.y - trianglePositions.x) / lockPower;
             currentTrianglePosition = trianglePositions.x;
             lockTriangle.transform.localPosition = new Vector3(currentTrianglePosition, lockTriangle.transform.localPosition.y, lockTriangle.transform.localPosition.z);
+            if (_doorType == DoorType.BulletDoor || _doorType == DoorType.SkillDoor)
+            {
+            }
+            else
+            {
+                _lockTexter.text = lockPower.ToString();
+            }
             locked = true;
         }
         else
         {
+            if (_doorType == DoorType.BulletDoor || _doorType == DoorType.SkillDoor)
+            {
+            }
+            else
+            {
+                _lockTexter.gameObject.SetActive(false);
+            }
             locked = false;
             for (int i = 0; i < lockObjects.Count; i++)
             {
@@ -214,6 +228,7 @@ public class SingleDoorScript : MonoBehaviour
         if (_doorType == DoorType.SkillDoor)
         {
             int skillNumber = ((int)_doorSkill);
+            skillerNumberer = skillNumber;
             for (int i = 0; i < skillSprites.Count; i++)
             {
                 if (i == skillNumber)
@@ -250,11 +265,13 @@ public class SingleDoorScript : MonoBehaviour
     {
         StartCoroutine(ShakeLockCanvas());
         lockPower -= 1;
+        _lockTexter.text = lockPower.ToString();
         currentTrianglePosition += triangleXMoveAmount * 1;
         lockTriangle.transform.DOLocalMoveX(currentTrianglePosition, .2f);
         ThrowObjects(1);
-        if (lockPower < 0)
+        if (lockPower <= 0)
         {
+            _lockTexter.gameObject.transform.DOScale(Vector3.zero, .2f);
             lockCanvas.transform.DOScale(Vector3.zero, .2f);
             locked = false;
             SetDoorProperties();

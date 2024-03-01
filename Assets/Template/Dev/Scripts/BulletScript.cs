@@ -30,18 +30,12 @@ public class BulletScript : MonoBehaviour
     [SerializeField] List<GameObject> allTrails = new List<GameObject>();
     [SerializeField] GameObject _fireTrail;
     [SerializeField] GameObject _iceTrail;
-    public void SetBullet(List<Skills> _skills)
+    public void SetBullet(List<Skills> _skills,List<int> skillLevels)
     {
         _skillsGot.Clear();
         _skillsGot.AddRange(_skills);
         gotCrit = false;
-        if (bulletPower % 1 == 0)
-        {
-        }
-        else
-        {
-            GetComponentInChildren<TMPro.TextMeshPro>().text = bulletPower.ToString("0.0");
-        }
+     
         GetComponentInChildren<TMPro.TextMeshPro>().color = Color.green;
         GetComponentInChildren<TMPro.TextMeshPro>().DOColor(Color.white, .1f).SetDelay(.2f);
         for (int i = 0; i < allTrails.Count; i++)
@@ -51,17 +45,23 @@ public class BulletScript : MonoBehaviour
         }
         if (_skills.Contains(Skills.Bomb))
         {
-            bulletPower *= 2;
+            int indexOf = _skills.IndexOf(Skills.Bomb);
+            int skillLevel = skillLevels[indexOf];
+            bulletPower *= 2 + (1 + skillLevel * .2f);
         }
         if (_skills.Contains(Skills.FireBullets))
         {
+            int indexOf = _skills.IndexOf(Skills.FireBullets);
+            int skillLevel = skillLevels[indexOf];
             _fireTrail.gameObject.SetActive(true);
-            bulletPower *= 1.5f;
+            bulletPower *= 1.5f + (1 + skillLevel * .2f);
         }
         if (_skills.Contains(Skills.IceBullet))
         {
+            int indexOf = _skills.IndexOf(Skills.IceBullet);
+            int skillLevel = skillLevels[indexOf];
             _iceTrail.gameObject.SetActive(true);
-            bulletPower *= 1.5f;
+            bulletPower *= 1.5f + (1 + skillLevel * .2f);
         }
 
         if (_skills.Contains(Skills.Critical))
@@ -69,22 +69,38 @@ public class BulletScript : MonoBehaviour
             int randomInt = Random.Range(0, 5);
             if (randomInt == 3)
             {
-                gotCrit = true;
-                bulletPower *= 4;
             }
+            gotCrit = true;
+            bulletPower *= 2;
         }
         if (_skills.Contains(Skills.Richochet))
         {
             richocetEncounter.Clear();
-            health = 2;
+            int indexOf = _skills.IndexOf(Skills.Richochet);
+            int skillLevel = skillLevels[indexOf];
+            int addAmount = Mathf.RoundToInt((skillLevel * .5f) -.01f);
+            health = 2+addAmount;
         }
         if (_skills.Contains(Skills.BiggerBullets))
         {
-            transform.localScale *= 1.5f;
+            int indexOf = _skills.IndexOf(Skills.BiggerBullets);
+            int skillLevel = skillLevels[indexOf];
+            transform.localScale *= 1.5f + (1 + skillLevel * .2f);
         }
         if (_skills.Contains(Skills.Range))
         {
-            zMax += 10;
+            int indexOf = _skills.IndexOf(Skills.BiggerBullets);
+            int skillLevel = skillLevels[indexOf];
+            zMax += 10 + (1 + skillLevel * 1f);
+        }
+        if (bulletPower % 1 == 0)
+        {
+            GetComponentInChildren<TMPro.TextMeshPro>().text = bulletPower.ToString("0");
+
+        }
+        else
+        {
+            GetComponentInChildren<TMPro.TextMeshPro>().text = bulletPower.ToString("0.0");
         }
     }
     public void BulletDeActivate(bool showPower, bool particledHit = false, Ricochetable _ricochetObject = null)
@@ -124,6 +140,18 @@ public class BulletScript : MonoBehaviour
                     ps.Play();
                 }
             }
+            if (_skillsGot.Contains(Skills.Critical))
+            {
+                if (gotCrit)
+                {
+                    
+                    GameObject bombHitParticle = ObjectPooler.instance.SpawnFromPool("GotCritExplosion", transform.position, Quaternion.identity);
+                    foreach (ParticleSystem ps in bombHitParticle.GetComponentsInChildren<ParticleSystem>())
+                    {
+                        ps.Play();
+                    }
+                }
+            }
             if (_skillsGot.Contains(Skills.Richochet))
             {
                 health -= 1;
@@ -159,7 +187,53 @@ public class BulletScript : MonoBehaviour
         }
         else
         {
-            if (health <= 0)
+            if (_ricochetObject != null)
+            {
+                if (health <= 0)
+                {
+                    transform.DOComplete();
+                    transform.DOKill();
+                    transform.DOScale(Vector3.zero, .1f);
+                    GetComponent<Collider>().enabled = false;
+                    GetComponent<TrailRenderer>().enabled = false;
+                    GetComponent<TrailRenderer>().Clear();
+                }
+                else
+                {
+                    if (!richocetEncounter.Contains(_ricochetObject))
+                    {
+                        if (_ricochetObject != null)
+                        {
+                            GameObject ricohetTo = null;
+                            float smallestDifference = Mathf.Infinity;
+                            foreach (Ricochetable rr in FindObjectsOfType<Ricochetable>())
+                            {
+                                Debug.Log(_ricochetObject.gameObject);
+                                if (rr.gameObject != _ricochetObject.gameObject)
+                                {
+                                    if (Vector3.Distance(rr.transform.position, _ricochetObject.transform.position) < smallestDifference)
+                                    {
+                                        smallestDifference = Vector3.Distance(rr.transform.position, _ricochetObject.transform.position);
+                                        ricohetTo = rr.gameObject;
+                                    }
+                                }
+                            }
+                            Vector3 vectoralDifference = ricohetTo.transform.position - transform.position;
+                            vectoralDifference.y = 0;
+                            vectoralDifference.Normalize();
+                            GetComponent<Rigidbody>().velocity = Vector3.zero;
+                            transform.LookAt(new Vector3(ricohetTo.transform.position.x, transform.position.y, ricohetTo.transform.position.z));
+                            GetComponent<Rigidbody>().AddForce(vectoralDifference * ShootingScript.instance.shootForce);
+                            richocetEncounter.Add(_ricochetObject);
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            else
             {
                 transform.DOComplete();
                 transform.DOKill();
@@ -168,45 +242,16 @@ public class BulletScript : MonoBehaviour
                 GetComponent<TrailRenderer>().enabled = false;
                 GetComponent<TrailRenderer>().Clear();
             }
-            else
-            {
-                if (!richocetEncounter.Contains(_ricochetObject))
-                {
-                    GameObject ricohetTo = null;
-                    float smallestDifference = Mathf.Infinity;
-                    foreach (Ricochetable rr in FindObjectsOfType<Ricochetable>())
-                    {
-                        Debug.Log(_ricochetObject.gameObject);
-                        if (rr.gameObject != _ricochetObject.gameObject)
-                        {
-                            if (Vector3.Distance(rr.transform.position, _ricochetObject.transform.position) < smallestDifference)
-                            {
-                                smallestDifference = Vector3.Distance(rr.transform.position, _ricochetObject.transform.position);
-                                ricohetTo = rr.gameObject;
-                            }
-                        }
-                    }
-                    Vector3 vectoralDifference = ricohetTo.transform.position - transform.position;
-                    vectoralDifference.y = 0;
-                    vectoralDifference.Normalize();
-                    GetComponent<Rigidbody>().AddForce(vectoralDifference * ShootingScript.instance.shootForce);
-                    richocetEncounter.Add(_ricochetObject);
-                }
-                else
-                {
-
-                }
-            }
         }
     }
-    public void ActivateBullet(float _power, List<Skills> skill)
+    public void ActivateBullet(float _power, List<Skills> skill, List<int> _levels)
     {
         GetComponentInChildren<TextMeshPro>().text = _power.ToString();
         bulletPower = _power;
         transform.DOComplete();
         transform.DOKill();
         GetComponent<TrailRenderer>().Clear();
-        GetComponent<BulletScript>().SetBullet(skill);
+        GetComponent<BulletScript>().SetBullet(skill,_levels);
         transform.DOKill();
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().isKinematic = true;
