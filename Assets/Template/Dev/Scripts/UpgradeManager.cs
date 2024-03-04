@@ -18,8 +18,10 @@ public class UpgradeClass
 [System.Serializable]
 public class UpgradePrices
 {
+    public List<int> powerPrices = new List<int>();
     public List<int> ratePrices = new List<int>();
-    public List<int> rangePrices = new List<int>();
+    public List<int> capacityPrices = new List<int>();
+    public List<int> incomePrices = new List<int>();
 }
 
 public class UpgradeManager : MonoBehaviour
@@ -36,18 +38,32 @@ public class UpgradeManager : MonoBehaviour
         }
         for (int i = 0; i < upgrades.Count; i++)
         {
-            if (i == 1)
+            if (i == 0)
+            {
+                for (int u = 0; u < up.powerPrices.Count; u++)
+                {
+                    upgrades[i].upgradePrices.Add(up.powerPrices[u]);
+                }
+            }
+            else if (i == 1)
             {
                 for (int u = 0; u < up.ratePrices.Count; u++)
                 {
                     upgrades[i].upgradePrices.Add(up.ratePrices[u]);
                 }
             }
-            else if (i == 0)
+            else if (i == 2)
             {
-                for (int u = 0; u < up.rangePrices.Count; u++)
+                for (int u = 0; u < up.capacityPrices.Count; u++)
                 {
-                    upgrades[i].upgradePrices.Add(up.rangePrices[u]);
+                    upgrades[i].upgradePrices.Add(up.capacityPrices[u]);
+                }
+            }
+            else if (i == 3)
+            {
+                for (int u = 0; u < up.incomePrices.Count; u++)
+                {
+                    upgrades[i].upgradePrices.Add(up.incomePrices[u]);
                 }
             }
         }
@@ -72,13 +88,13 @@ public class UpgradeManager : MonoBehaviour
         {
             price = uc.upgradePrices[uc.upgradePrices.Count - 1];
         }
-        if (PlayerPrefs.GetInt("Coin") >= price)
+        if (PlayerPrefs.GetFloat("Coin") >= price)
         {
             uc.upgradeImage.sprite = uc.sprites[0];
         }
         else
         {
-            uc.upgradeImage.sprite = uc.sprites[1];
+            uc.upgradeImage.GetComponent<Button>().interactable = false;
         }
         uc.upgradeLevelText.text = "lvl " + (PlayerPrefs.GetInt(uc.upgradeName + "Level") + 1).ToString();
         uc.upgradePriceText.text = price.ToString() + "$";
@@ -98,13 +114,25 @@ public class UpgradeManager : MonoBehaviour
         switch (upgradeNum)
         {
             case 0:
+                BarMain.instance.PowerUpgradeFromUIER();
                 break;
             case 1:
+                ShootingScript.instance.FireRateUpgradeFromUI();
+                break;
+            case 2:
+                foreach(MiniGameMain mgm in FindObjectsOfType<MiniGameMain>())
+                {
+                    mgm.AddPower(5);
+                }
+                BarMain.instance.CapacityUpgrade();
+                break;
+            case 3:
+                PlayerPrefs.SetFloat("IncomeMultiplier", PlayerPrefs.GetFloat("IncomeMultiplier") + .1f);
                 break;
         }
-        if (PlayerPrefs.GetInt("Coin") >= price)
+        if (PlayerPrefs.GetFloat("Coin") >= price)
         {
-            PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") - price);
+            PlayerPrefs.SetFloat("Coin", PlayerPrefs.GetFloat("Coin") - price);
             PlayerPrefs.SetInt(uc.upgradeName + "Level", PlayerPrefs.GetInt(uc.upgradeName + "Level") + 1);
             GameManager.instance.RefreshCoinText();
             StartCoroutine(ShakeMainBar(uc.upgradeImage.gameObject));

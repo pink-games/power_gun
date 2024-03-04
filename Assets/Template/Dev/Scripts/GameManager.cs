@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        if (PlayerPrefs.GetFloat("IncomeMultiplier") == 0)
+        {
+            PlayerPrefs.SetFloat("IncomeMultiplier", 1);
+        }
         _gameSpecs = JsonUtility.FromJson<GameSpecs>(RemoteConfig.GetInstance().Get("GameSpecs", _defaultGameSpecs.text));
         Application.targetFrameRate = 60;
         Input.multiTouchEnabled = false;
@@ -55,13 +59,14 @@ public class GameManager : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("LevelPref") != SceneManager.GetActiveScene().buildIndex)
         {
-//            SceneManager.LoadScene(PlayerPrefs.GetInt("LevelPref"));
+            SceneManager.LoadScene(PlayerPrefs.GetInt("LevelPref"));
         }
         Elephant.LevelStarted(PlayerPrefs.GetInt("Level"));
     }
     public void RefreshCoinText()
     {
-        coinText.text = PlayerPrefs.GetInt("Coin").ToString();
+        coinText.text = PlayerPrefs.GetFloat("Coin").ToString();
+        Debug.Log(PlayerPrefs.GetFloat("Coin").ToString() + "WealtyAmounter");
     }
     private void Update()
     {
@@ -71,6 +76,9 @@ public class GameManager : MonoBehaviour
         }else if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }else if (Input.GetKeyDown(KeyCode.M))
+        {
+            StartCoroutine(InstNewMoney(BarMain.instance.transform.position, 1, 10));
         }
     }
     public void StartGame()
@@ -184,9 +192,10 @@ public class GameManager : MonoBehaviour
         newMoney.GetComponent<TextMeshProUGUI>().DOColor(new Color(), .3f);
         newMoney.transform.DOScale(Vector3.zero, .2f);
     }
-    public IEnumerator InstNewMoney(Vector3 instPos, int side, int price)
+    public IEnumerator InstNewMoney(Vector3 instPos, int side, float price)
     {
         //GameObject newMoney = Instantiate(newerMoney);
+        price *= PlayerPrefs.GetFloat("IncomeMultiplier",1);
         GameObject newMoney = ObjectPooler.instance.SpawnFromPool("GainText", transform.position, Quaternion.identity);
         newMoney.transform.DOKill();
         newMoney.GetComponentInChildren<TextMeshProUGUI>().color = Color.green;
@@ -205,9 +214,9 @@ public class GameManager : MonoBehaviour
             newMoney.transform.position = new Vector3(newMoney.transform.position.x, newMoney.transform.position.y, newMoney.transform.position.z);
         }
         newMoney.transform.DOMoveY(newMoney.transform.position.y + 300, 1.4f);
-        int oldCoinAmount = PlayerPrefs.GetInt("Coin");
-        PlayerPrefs.SetInt("Coin", PlayerPrefs.GetInt("Coin") + price);
-        int to = PlayerPrefs.GetInt("Coin");
+        float oldCoinAmount = PlayerPrefs.GetFloat("Coin");
+        PlayerPrefs.SetFloat("Coin", PlayerPrefs.GetFloat("Coin") + price);
+        float to = PlayerPrefs.GetFloat("Coin");
         DOTween.To(() => oldCoinAmount, x => oldCoinAmount = x, to, .2f).OnUpdate(delegate {
             coinText.text = oldCoinAmount.ToString();
         }).OnComplete(delegate {

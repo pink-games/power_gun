@@ -11919,7 +11919,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BULET
+  m_text: BULLET
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 09c99001d335748fbba7eb9a03e94ffa, type: 2}
   m_sharedMaterial: {fileID: 2561355404698053700, guid: 09c99001d335748fbba7eb9a03e94ffa, type: 2}
@@ -19155,6 +19155,8 @@ MonoBehaviour:
   barFinalScale: {x: 0.15208, y: -2.929713, z: 0.502347}
   barStartPosition: {x: 0, y: -1.3466, z: -1.5641}
   barFinalPosition: {x: 0, y: 0.0832, z: -1.5641}
+  _lockTexter: {fileID: 0}
+  skillerNumberer: 0
 --- !u!114 &1059132238874523339
 MonoBehaviour:
   m_ObjectHideFlags: 0

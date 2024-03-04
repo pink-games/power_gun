@@ -47,21 +47,21 @@ public class BulletScript : MonoBehaviour
         {
             int indexOf = _skills.IndexOf(Skills.Bomb);
             int skillLevel = skillLevels[indexOf];
-            bulletPower *= 2 + (1 + skillLevel * .2f);
+            bulletPower *= 2 + (skillLevel * .1f);
         }
         if (_skills.Contains(Skills.FireBullets))
         {
             int indexOf = _skills.IndexOf(Skills.FireBullets);
             int skillLevel = skillLevels[indexOf];
             _fireTrail.gameObject.SetActive(true);
-            bulletPower *= 1.5f + (1 + skillLevel * .2f);
+            bulletPower *= 1.5f + (skillLevel * .1f);
         }
         if (_skills.Contains(Skills.IceBullet))
         {
             int indexOf = _skills.IndexOf(Skills.IceBullet);
             int skillLevel = skillLevels[indexOf];
             _iceTrail.gameObject.SetActive(true);
-            bulletPower *= 1.5f + (1 + skillLevel * .2f);
+            bulletPower *= 1.5f + (skillLevel * .1f);
         }
 
         if (_skills.Contains(Skills.Critical))
@@ -79,7 +79,7 @@ public class BulletScript : MonoBehaviour
             int indexOf = _skills.IndexOf(Skills.Richochet);
             int skillLevel = skillLevels[indexOf];
             int addAmount = Mathf.RoundToInt((skillLevel * .5f) -.01f);
-            health = 2+addAmount;
+            health = 2;
         }
         if (_skills.Contains(Skills.BiggerBullets))
         {

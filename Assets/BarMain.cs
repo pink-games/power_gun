@@ -28,9 +28,16 @@ public class BarMain : MonoBehaviour
     public Material activeMaterial;
     public Material inActiveMaterial;
     public List<Vector3> scales;
+    public List<int> powerNeededForNewCapacity = new List<int>();
+    int currentLeveler;
+    float currentPower;
     public static BarMain instance;
     private void Awake()
     {
+        if (PlayerPrefs.GetFloat("StartPower") == 0)
+        {
+            PlayerPrefs.SetFloat("StartPower", 1);
+        }
         instance = this;
         fillTime = RemoteConfig.GetInstance().GetFloat("BarFillTime", 3);
         currentCapacity = 5;
@@ -38,9 +45,10 @@ public class BarMain : MonoBehaviour
         StartCoroutine(WorkTheBar());
         for(int i = 0; i < singleBarRenderers.Count; i++)
         {
-            singleBarRenderers[i].GetComponent<SinglePart>().active = true;
             if (i < 5)
             {
+                _barValues[i].barPower = PlayerPrefs.GetFloat("StartPower", 1);
+                singleBarRenderers[i].GetComponent<SinglePart>().active = true;
                 fullData.Add(1);
             }
             else
@@ -49,9 +57,48 @@ public class BarMain : MonoBehaviour
             }
         }
     }
+    public void PowerUpgradeFromUIER()
+    {
+        PlayerPrefs.SetFloat("StartPower", PlayerPrefs.GetFloat("StartPower") + .5f);
+        for (int i = 0; i < currentCapacity; i++)
+        {
+            if (singleBarRenderers[i].GetComponent<SinglePart>().active)
+            {
+                _barValues[i].barPower = PlayerPrefs.GetFloat("StartPower");
+                singleBarRenderers[i].GetComponent<SinglePart>().Set(_barValues[i]);
+            }
+        }
+    }
+    public void CapacityUpgrade()
+    {
+        PlayerPrefs.SetFloat("StartCapacityPower", PlayerPrefs.GetFloat("StartCapacityPower") + 5);
+        AddPower(5);
+    }
+    private void AddPower(float addAmounter)
+    {
+        currentPower += addAmounter;
+        int startLevel = currentLeveler;
+        int smallestLeveler = 0;
+        for(int i = 0; i < powerNeededForNewCapacity.Count; i++)
+        {
+            if (currentPower >= powerNeededForNewCapacity[i])
+            {
+                smallestLeveler = i;
+            }
+        }
+        currentLeveler = smallestLeveler;
+        int difference = currentLeveler - startLevel;
+        Debug.Log("Difference" + difference);
+        AddCapacity(difference);
+    }
     private void Start()
     {
-        AddCapacity(0);
+        powerNeededForNewCapacity.Clear();
+        for (int i = 0; i < GameManager.instance._gameSpecs.powerNeededForCapacity.Count; i++)
+        {
+            powerNeededForNewCapacity.Add(GameManager.instance._gameSpecs.powerNeededForCapacity[i]);
+        }
+        AddPower(PlayerPrefs.GetFloat("StartCapacityPower"));
     }
     private IEnumerator WorkTheBar()
     {
@@ -222,6 +269,10 @@ public class BarMain : MonoBehaviour
     {
         if (GotEmptySlot())
         {
+            if (skillToGetter == Skills.MultiShoot)
+            {
+                skillLevel++;
+            }
             int emptySlotNumber = GetSmallestEmptySlotNumber();
             _barValues[emptySlotNumber].skillBar = true;
             _barValues[emptySlotNumber]._barSkill = skillToGetter;

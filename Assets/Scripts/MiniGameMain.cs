@@ -13,7 +13,17 @@ public class MiniGameMain : MonoBehaviour
     [SerializeField] GameObject secondBar;
     private void Awake()
     {
-        AddPower(0);
+
+    }
+    private void Start()
+    {
+        powerNeededForNewLayer.Clear();
+        for (int i = 0; i < GameManager.instance._gameSpecs.powerNeededForCapacity.Count; i++)
+        {
+            powerNeededForNewLayer.Add(GameManager.instance._gameSpecs.powerNeededForCapacity[i]);
+        }
+        AddPower(PlayerPrefs.GetFloat("StartCapacityPower"));
+
     }
     public void AddPower(float hitPower)
     {
