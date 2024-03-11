@@ -113,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Finish"))
         {
             finishLinePassed = true;
-            //CinemachineManager.instance.SetCam(2);
+            CinemachineManager.instance.SetCam(2);
         }
         else if (other.CompareTag("Engel"))
         {

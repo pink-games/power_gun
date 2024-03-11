@@ -179,8 +179,9 @@ public class BarMain : MonoBehaviour
         }
         else
         {
-            //singleBarRenderers[barNumber].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(Vector3.one * 1.3f, .1f);
-            //singleBarRenderers[barNumber].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(Vector3.one, .1f).SetDelay(.1f);
+            Vector3 skillSpriteParentScaler = new Vector3(0.001614809f, 0.001464429f, 0.001258415f);
+            singleBarRenderers[barNumber].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(skillSpriteParentScaler * 1.3f, .1f);
+            singleBarRenderers[barNumber].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(skillSpriteParentScaler, .1f).SetDelay(.1f);
         }
         if (fullData[barNumber + 5] == 1)
         {
@@ -234,15 +235,16 @@ public class BarMain : MonoBehaviour
         {
             if (_barValues[SmallestBarObjectInteger()].barPower < bulletPowerer)
             {
-                GameObject originalSingleParter = singleBarRenderers[SmallestBarObjectInteger()].gameObject;
-                _barValues[SmallestBarObjectInteger()].barPower = bulletPowerer;
-                singleBarRenderers[SmallestBarObjectInteger()].GetComponent<SinglePart>()._powerTexter.text = bulletPowerer.ToString();
+                int smallestInteger = SmallestBarObjectInteger();
+                GameObject originalSingleParter = singleBarRenderers[smallestInteger].gameObject;
+                _barValues[smallestInteger].barPower = bulletPowerer;
+                singleBarRenderers[smallestInteger].GetComponent<SinglePart>()._powerTexter.text = bulletPowerer.ToString();
                 GameObject showBar = Instantiate(originalSingleParter);
                 Destroy(showBar.GetComponent<SinglePart>());
-                showBar.transform.parent = singleBarRenderers[SmallestBarObjectInteger()].transform.parent;
-                showBar.transform.position = singleBarRenderers[SmallestBarObjectInteger()].transform.position;
-                showBar.transform.localScale = singleBarRenderers[SmallestBarObjectInteger()].transform.localScale;
-                showBar.transform.localEulerAngles = singleBarRenderers[SmallestBarObjectInteger()].transform.localEulerAngles;
+                showBar.transform.parent = singleBarRenderers[smallestInteger].transform.parent;
+                showBar.transform.position = singleBarRenderers[smallestInteger].transform.position;
+                showBar.transform.localScale = singleBarRenderers[smallestInteger].transform.localScale;
+                showBar.transform.localEulerAngles = singleBarRenderers[smallestInteger].transform.localEulerAngles;
                 Vector3 startScale = originalSingleParter.transform.localScale;
                 originalSingleParter.transform.DOScale(startScale, .4f).SetEase(_growCurver);
                 originalSingleParter.transform.localScale = Vector3.zero;
@@ -253,11 +255,12 @@ public class BarMain : MonoBehaviour
         }
         else
         {
-            _barValues[GetSmallestEmptySlotNumber()].barPower = bulletPowerer;
-            _barValues[GetSmallestEmptySlotNumber()].skillBar = false;
-            singleBarRenderers[GetSmallestEmptySlotNumber()].GetComponent<SinglePart>().active = true;
-            singleBarRenderers[GetSmallestEmptySlotNumber()].GetComponent<SinglePart>().Set(_barValues[GetSmallestEmptySlotNumber()]);
-            fullData[GetSmallestEmptySlotNumber()] = 1;
+            int smallestEmptySlotNumber = GetSmallestEmptySlotNumber();
+            _barValues[smallestEmptySlotNumber].barPower = bulletPowerer;
+            _barValues[smallestEmptySlotNumber].skillBar = false;
+            singleBarRenderers[smallestEmptySlotNumber].GetComponent<SinglePart>().active = true;
+            singleBarRenderers[smallestEmptySlotNumber].GetComponent<SinglePart>().Set(_barValues[smallestEmptySlotNumber]);
+            fullData[smallestEmptySlotNumber] = 1;
         }
         
     }

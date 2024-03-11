@@ -88,8 +88,12 @@ public class ShootingScript : MonoBehaviour
         float totalPower = 0;
         for (int i = 0; i < _values.Count; i++)
         {
-            totalPower += _values[i].barPower;
+            if (!_values[i].skillBar)
+            {
+                totalPower += _values[i].barPower;
+            }
         }
+        Debug.Log(totalPower+"TotalPowerer");
         return totalPower;
     }
     public void FireRateUpgrade(float _amount)

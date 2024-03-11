@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         //On Button Click
-        
+        CinemachineManager.instance.SetCam(1);
         startCanvas.SetActive(false);
         inGameCanvas.SetActive(true);
         started = true;
