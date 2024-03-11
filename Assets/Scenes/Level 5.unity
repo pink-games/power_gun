@@ -3030,29 +3030,73 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3420273918702523492, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420273918702523492, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9639872
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420273918702523492, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.1430469
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420273918702523492, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.2217732
+      objectReference: {fileID: 0}
+    - target: {fileID: 3420273918702523492, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.03290912
+      objectReference: {fileID: 0}
+    - target: {fileID: 4115916083471181717, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2684
+      objectReference: {fileID: 0}
     - target: {fileID: 8834520503093487762, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000000084996445
+      value: -0.000000008499648
       objectReference: {fileID: 0}
     - target: {fileID: 8834520503093487762, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000013307528
+      value: 0.0000000013307535
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834520503720866656, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834520503720866656, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.34
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834520503720866656, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834520503720866656, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9639872
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834520503720866656, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.1430469
       objectReference: {fileID: 0}
     - target: {fileID: 8834520503720866656, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.062416922
+      value: -0.2217732
       objectReference: {fileID: 0}
     - target: {fileID: 8834520503720866656, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.014599975
+      value: 0.03290912
       objectReference: {fileID: 0}
     - target: {fileID: 8834520504377253448, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.062416922
+      value: -0.06241694
       objectReference: {fileID: 0}
     - target: {fileID: 8834520504377253448, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.014599975
+      value: 0.01459998
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
@@ -12600,96 +12644,112 @@ MonoBehaviour:
   cubesInside: []
   _collectableLayersInside:
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 10
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 20
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 30
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 40
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 50
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 60
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 70
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 80
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 90
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 100
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 110
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 120
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 130
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 140
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0
     _singlePiecePowerAmount: 0
     _layerPower: 150
   - _cubesInside: []
+    cubePositions: []
     _mainParent: {fileID: 0}
     _throwAmountPerPower: 0
     _currentThrowAmount: 0

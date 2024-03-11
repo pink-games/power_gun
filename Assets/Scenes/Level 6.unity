@@ -1685,7 +1685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4115916083471181717, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2385.634
+      value: 2437
       objectReference: {fileID: 0}
     - target: {fileID: 4115916083471181717, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1698,6 +1698,10 @@ PrefabInstance:
     - target: {fileID: 8359567235389925362, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: VignetteSoftness
       value: 0.577
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834520502992294072, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 128.898
       objectReference: {fileID: 0}
     - target: {fileID: 8834520503093487762, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.y
@@ -1737,11 +1741,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8834520504377253448, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.06241694
+      value: -0.062416922
       objectReference: {fileID: 0}
     - target: {fileID: 8834520504377253448, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.01459998
+      value: 0.014599975
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dffee974d0ddb4589b1cddc2a0098fd9, type: 3}

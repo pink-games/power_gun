@@ -27,6 +27,7 @@ public class UpgradePrices
 public class UpgradeManager : MonoBehaviour
 {
     public TextAsset defaultUpgradePrices;
+    public bool capacityMaxed;
     [SerializeField] private List<UpgradeClass> upgrades = new List<UpgradeClass>();
     private void Awake()
     {
@@ -98,6 +99,10 @@ public class UpgradeManager : MonoBehaviour
         }
         uc.upgradeLevelText.text = "lvl " + (PlayerPrefs.GetInt(uc.upgradeName + "Level") + 1).ToString();
         uc.upgradePriceText.text = price.ToString() + "$";
+        if (capacityMaxed)
+        {
+            SetCapacityToMax();
+        }
     }
     public void PurchaseUpgrade(int upgradeNum)
     {
@@ -111,33 +116,42 @@ public class UpgradeManager : MonoBehaviour
         {
             price = uc.upgradePrices[uc.upgradePrices.Count - 1];
         }
-        switch (upgradeNum)
-        {
-            case 0:
-                BarMain.instance.PowerUpgradeFromUIER();
-                break;
-            case 1:
-                ShootingScript.instance.FireRateUpgradeFromUI();
-                break;
-            case 2:
-                foreach(MiniGameMain mgm in FindObjectsOfType<MiniGameMain>())
-                {
-                    mgm.AddPower(5);
-                }
-                BarMain.instance.CapacityUpgrade();
-                break;
-            case 3:
-                PlayerPrefs.SetFloat("IncomeMultiplier", PlayerPrefs.GetFloat("IncomeMultiplier") + .1f);
-                break;
-        }
+      
         if (PlayerPrefs.GetFloat("Coin") >= price)
         {
+            switch (upgradeNum)
+            {
+                case 0:
+                    BarMain.instance.PowerUpgradeFromUIER();
+                    break;
+                case 1:
+                    ShootingScript.instance.FireRateUpgradeFromUI();
+                    break;
+                case 2:
+                    /*
+                    foreach (MiniGameMain mgm in FindObjectsOfType<MiniGameMain>())
+                    {
+                        mgm.AddPower(5);
+                    }
+                    */
+                    BarMain.instance.CapacityUpgrade();
+                    break;
+                case 3:
+                    PlayerPrefs.SetFloat("IncomeMultiplier", PlayerPrefs.GetFloat("IncomeMultiplier") + .1f);
+                    break;
+            }
             PlayerPrefs.SetFloat("Coin", PlayerPrefs.GetFloat("Coin") - price);
             PlayerPrefs.SetInt(uc.upgradeName + "Level", PlayerPrefs.GetInt(uc.upgradeName + "Level") + 1);
             GameManager.instance.RefreshCoinText();
             StartCoroutine(ShakeMainBar(uc.upgradeImage.gameObject));
             RefreshUI();
         }
+    }
+    public void SetCapacityToMax()
+    {
+        upgrades[2].upgradeImage.GetComponent<Button>().interactable = false;
+        upgrades[2].upgradePriceText.text = "MAX";
+        capacityMaxed = true;
     }
     private IEnumerator ShakeMainBar(GameObject mainBar)
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using ElephantSDK;
 [System.Serializable]
@@ -31,6 +32,7 @@ public class BarMain : MonoBehaviour
     public List<int> powerNeededForNewCapacity = new List<int>();
     int currentLeveler;
     float currentPower;
+    public Image _capacityFillerBarerUpgrader;
     public static BarMain instance;
     private void Awake()
     {
@@ -71,8 +73,8 @@ public class BarMain : MonoBehaviour
     }
     public void CapacityUpgrade()
     {
-        PlayerPrefs.SetFloat("StartCapacityPower", PlayerPrefs.GetFloat("StartCapacityPower") + 5);
-        AddPower(5);
+        PlayerPrefs.SetFloat("StartCapacityPower", PlayerPrefs.GetFloat("StartCapacityPower") + RemoteConfig.GetInstance().GetFloat("CapacityAddAmount",5));
+        AddPower(RemoteConfig.GetInstance().GetFloat("CapacityAddAmount",5));
     }
     private void AddPower(float addAmounter)
     {
@@ -86,6 +88,17 @@ public class BarMain : MonoBehaviour
                 smallestLeveler = i;
             }
         }
+        if(smallestLeveler== powerNeededForNewCapacity.Count-1)
+        {
+            float fillAmounte = 1;
+            Debug.Log("CapacityMaxxed");
+            _capacityFillerBarerUpgrader.fillAmount = fillAmounte;
+            FindObjectOfType<UpgradeManager>().SetCapacityToMax();
+            return;
+        }
+        float fillAmounter = currentPower - (float)powerNeededForNewCapacity[smallestLeveler];
+        fillAmounter /= (float)powerNeededForNewCapacity[smallestLeveler + 1] - (float)powerNeededForNewCapacity[smallestLeveler];
+        _capacityFillerBarerUpgrader.fillAmount = fillAmounter;
         currentLeveler = smallestLeveler;
         int difference = currentLeveler - startLevel;
         Debug.Log("Difference" + difference);
@@ -173,7 +186,7 @@ public class BarMain : MonoBehaviour
         if (!_barValues[barNumber].skillBar)
         {
             singleBarRenderers[barNumber].GetComponent<SinglePart>()._powerTexter.color = Color.green;
-            singleBarRenderers[barNumber].GetComponent<SinglePart>()._powerTexter.DOColor(Color.white,.1f).SetDelay(.1f);
+            singleBarRenderers[barNumber].GetComponent<SinglePart>()._powerTexter.DOColor(Color.white, .1f).SetDelay(.1f);
             singleBarRenderers[barNumber].GetComponent<SinglePart>()._powerTexter.transform.DOScale(Vector3.one * 1.3f, .1f);
             singleBarRenderers[barNumber].GetComponent<SinglePart>()._powerTexter.transform.DOScale(Vector3.one, .1f).SetDelay(.1f);
         }
@@ -183,11 +196,38 @@ public class BarMain : MonoBehaviour
             singleBarRenderers[barNumber].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(skillSpriteParentScaler * 1.3f, .1f);
             singleBarRenderers[barNumber].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(skillSpriteParentScaler, .1f).SetDelay(.1f);
         }
+        singleBarRenderers[barNumber].transform.DOScaleX(128.898f * 2, .1f);
+        singleBarRenderers[barNumber].GetComponent<Renderer>().material.SetColor("_GreenColor", Color.green);
+        singleBarRenderers[barNumber].transform.DOScaleX(128.898f, .1f).SetDelay(.1f).OnComplete(delegate {
+            singleBarRenderers[barNumber].GetComponent<Renderer>().material.SetColor("_GreenColor", Color.white);
+        });
         if (fullData[barNumber + 5] == 1)
         {
             if (fullData[barNumber + 5] == 1)
             {
                 barsToUser.Add(barNumber + 5);
+
+                if (!_barValues[barNumber + 5].skillBar)
+                {
+                    singleBarRenderers[barNumber + 5].GetComponent<SinglePart>()._powerTexter.color = Color.green;
+                    singleBarRenderers[barNumber + 5].GetComponent<SinglePart>()._powerTexter.DOColor(Color.white, .1f).SetDelay(.1f);
+                    singleBarRenderers[barNumber + 5].GetComponent<SinglePart>()._powerTexter.transform.DOScale(Vector3.one * 1.3f, .1f);
+                    singleBarRenderers[barNumber + 5].GetComponent<SinglePart>()._powerTexter.transform.DOScale(Vector3.one, .1f).SetDelay(.1f);
+                }
+                else
+                {
+                    Vector3 skillSpriteParentScaler = new Vector3(0.001614809f, 0.001464429f, 0.001258415f);
+                    singleBarRenderers[barNumber + 5].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(skillSpriteParentScaler * 1.3f, .1f);
+                    singleBarRenderers[barNumber + 5].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(skillSpriteParentScaler, .1f).SetDelay(.1f);
+                }
+                singleBarRenderers[barNumber + 5].transform.DOScaleX(128.898f * 2, .1f);
+                singleBarRenderers[barNumber + 5].GetComponent<Renderer>().material.SetColor("_GreenColor", Color.green);
+                singleBarRenderers[barNumber + 5].transform.DOScaleX(128.898f, .1f).SetDelay(.1f).OnComplete(delegate {
+                    singleBarRenderers[barNumber + 5].GetComponent<Renderer>().material.SetColor("_GreenColor", Color.white);
+                });
+
+
+
             }
         }
         if (fullData[barNumber + 10] == 1)
@@ -195,6 +235,27 @@ public class BarMain : MonoBehaviour
             if (fullData[barNumber + 10] == 1)
             {
                 barsToUser.Add(barNumber + 10);
+
+
+
+                if (!_barValues[barNumber + 10].skillBar)
+                {
+                    singleBarRenderers[barNumber + 10].GetComponent<SinglePart>()._powerTexter.color = Color.green;
+                    singleBarRenderers[barNumber + 10].GetComponent<SinglePart>()._powerTexter.DOColor(Color.white, .1f).SetDelay(.1f);
+                    singleBarRenderers[barNumber + 10].GetComponent<SinglePart>()._powerTexter.transform.DOScale(Vector3.one * 1.3f, .1f);
+                    singleBarRenderers[barNumber + 10].GetComponent<SinglePart>()._powerTexter.transform.DOScale(Vector3.one, .1f).SetDelay(.1f);
+                }
+                else
+                {
+                    Vector3 skillSpriteParentScaler = new Vector3(0.001614809f, 0.001464429f, 0.001258415f);
+                    singleBarRenderers[barNumber + 10].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(skillSpriteParentScaler * 1.3f, .1f);
+                    singleBarRenderers[barNumber + 10].GetComponent<SinglePart>()._skillerParenter.transform.DOScale(skillSpriteParentScaler, .1f).SetDelay(.1f);
+                }
+                singleBarRenderers[barNumber + 10].transform.DOScaleX(128.898f * 2, .1f);
+                singleBarRenderers[barNumber + 10].GetComponent<Renderer>().material.SetColor("_GreenColor", Color.green);
+                singleBarRenderers[barNumber + 10].transform.DOScaleX(128.898f, .1f).SetDelay(.1f).OnComplete(delegate {
+                    singleBarRenderers[barNumber + 10].GetComponent<Renderer>().material.SetColor("_GreenColor", Color.white);
+                });
             }
         }
         return barsToUser;

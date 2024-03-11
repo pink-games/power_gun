@@ -22,7 +22,7 @@ public class MiniGameMain : MonoBehaviour
         {
             powerNeededForNewLayer.Add(GameManager.instance._gameSpecs.powerNeededForCapacity[i]);
         }
-        AddPower(PlayerPrefs.GetFloat("StartCapacityPower"));
+        AddPower(0);
 
     }
     public void AddPower(float hitPower)
