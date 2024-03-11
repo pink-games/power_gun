@@ -95,7 +95,7 @@ public class BulletScript : MonoBehaviour
         {
             int indexOf = _skills.IndexOf(Skills.BiggerBullets);
             int skillLevel = skillLevels[indexOf];
-            transform.localScale *= 1.5f + (1 + skillLevel * .2f);
+            transform.localScale *= 2f+ (1 + skillLevel * .2f);
         }
         if (_skills.Contains(Skills.Range))
         {

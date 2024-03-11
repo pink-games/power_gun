@@ -11,7 +11,7 @@ public class SinglePart : MonoBehaviour
     private void Awake()
     {
         _skillerParenter = GetComponentInChildren<SkillSpriteParent>();
-        foreach(Transform cc in GetComponentsInChildren<Transform>())
+        foreach (Transform cc in GetComponentsInChildren<Transform>())
         {
             if (cc.gameObject.name.Contains("PowerText"))
             {
@@ -43,7 +43,15 @@ public class SinglePart : MonoBehaviour
                 }
                 if(_barValue._barSkill == Skills.MultiShoot)
                 {
-                    _skillerParenter.GetComponentInChildren<TextMeshPro>().text = "X" + ((_barValue.skillLeveler)).ToString();
+                    TextMeshPro _multiText = null;
+                    foreach (Transform cc in _skillerParenter.GetComponentsInChildren<Transform>())
+                    {
+                        if (cc.gameObject.name.Contains("Multi"))
+                        {
+                            _multiText = cc.GetComponent<TextMeshPro>();
+                        }
+                    }
+                    _multiText.text = "X" + ((_barValue.skillLeveler)).ToString();
                 }
             }
             else

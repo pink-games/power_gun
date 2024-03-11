@@ -5629,6 +5629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultUpgradePrices: {fileID: 4900000, guid: 1a39f1822d159445ca90e12faafb33c2, type: 3}
+  capacityMaxed: 0
   upgrades:
   - upgradeName: Power
     upgradeImage: {fileID: 2891308443941117543}
@@ -13023,6 +13024,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8834520502992294072}
     m_Modifications:
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSize
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7502805695837193408, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -13956,6 +13965,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8834520504586306164}
     m_Modifications:
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSize
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7502805695837193408, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -14108,6 +14125,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9142764309539582609}
     m_Modifications:
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.16
+      objectReference: {fileID: 0}
     - target: {fileID: 7502805695837193408, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -14568,6 +14589,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8834520502658789448}
     m_Modifications:
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSize
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7502805695837193408, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -14806,6 +14835,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8834520503510796323}
     m_Modifications:
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSize
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7502805695837193408, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -14958,6 +14995,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8834520504140703796}
     m_Modifications:
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSize
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5124482060858617812, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7502805695837193408, guid: 507dbbd2b467c4b63a7319c47e98eade, type: 3}
       propertyPath: m_RootOrder
       value: 0
