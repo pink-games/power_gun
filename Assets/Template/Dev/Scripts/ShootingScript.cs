@@ -184,6 +184,10 @@ public class ShootingScript : MonoBehaviour
         }
         if (canShoot && GameManager.instance.started)
         {
+            if (RemoteConfig.GetInstance().GetInt("ShootTaptic",0) == 1)
+            {
+                Taptic.Light();
+            }
             GetComponent<Animator>().Play("ShootAnimation");
             if (shootAmounter == 1)
             {

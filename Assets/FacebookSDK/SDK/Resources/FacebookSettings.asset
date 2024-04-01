@@ -16,9 +16,9 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 416389390837727
+  - 955842115502691
   appLabels:
-  - Power Rush
+  - Power Gun
   cookie: 1
   logging: 1
   status: 1

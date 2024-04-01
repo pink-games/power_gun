@@ -57,7 +57,7 @@ public class FinalObject : MonoBehaviour
                 _fireParticleInsider.transform.localScale = Vector3.zero;
                 _fireParticleInsider.transform.DOScale(scaler, .2f);
             }
-            Taptic.Light();
+            //Taptic.Light();
             other.GetComponent<BulletScript>().BulletDeActivate(true,true,GetComponent<Ricochetable>());
             power -= other.GetComponent<BulletScript>().bulletPower;
             powerText.text = power.ToString("0");

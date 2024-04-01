@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
-
+using ElephantSDK;
 
 public enum Skills
 {
@@ -117,7 +117,10 @@ public class BulletScript : MonoBehaviour
     {
         if (particledHit)
         {
-            Taptic.Light();
+            if (RemoteConfig.GetInstance().GetInt("HitTaptic", 1) == 1)
+            {
+                Taptic.Light();
+            }
             GameObject hitParticle = ObjectPooler.instance.SpawnFromPool("BulletHit", transform.position-new Vector3(0,0,.1f), Quaternion.identity);
             foreach (ParticleSystem ps in hitParticle.GetComponentsInChildren<ParticleSystem>())
             {

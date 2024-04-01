@@ -414,7 +414,7 @@ public class SingleDoorScript : MonoBehaviour
                 if (!locked)
                 {
                     IncreaseAmount(other.GetComponent<BulletScript>().bulletPower);
-                    Taptic.Light();
+                    //Taptic.Light();
                 }
                 else
                 {
